@@ -22,7 +22,7 @@ namespace Magic
             var DelEmpId = (from i
                             in Main.employees
                             where i.empid == emid
-                            select i).Single();
+                            select i).First();
          
             Main.employees.Remove(DelEmpId);
             Main.SaveChanges();
@@ -110,13 +110,25 @@ namespace Magic
 
         }
 
-        public int InsertEmployee(employee emp)
+        public int InsertEmployee(EmpInfo emp )
         {
+
             int t = 0;
             var beforeCount = (from i
                                in Main.employees
                                select i).Count();
-            Main.employees.Add(emp);
+
+            employee obj = new employee();
+            project pro = new project();
+            pro.projId = emp.ProjectId;
+            pro.projname = emp.ProjectName;
+            obj.empid = emp.EmpId;
+            obj.empname = emp.EmpName;
+            obj.empsalary = emp.EmpSalary;
+            obj.empAddress = emp.EmpAddress;
+            obj.project = pro;
+
+            Main.employees.Add(obj);
             Main.SaveChanges();
             var afterCount = (from i
                               in Main.employees
@@ -162,20 +174,25 @@ namespace Magic
             return t;
         }
 
-        public int UpdateEmployee(employee em)
+        public int UpdateEmployee(EmpInfo em)
         {
-            int EmpId = em.empid;
-            int RetValCheck = 6; 
+            int RetVal = 0;
+            int Id = em.EmpId;
 
-            var Updated = (from Emp
+            var Updated = (from p
                            in Main.employees
-                           where Emp.empid == EmpId
-                           select Emp).Single();
+                           where p.empid == Id
+                           select p).First();
 
-            Updated.empname = em.empname;
-            Updated.empsalary = em.empsalary;
-            Updated.empAddress = em.empAddress;
-            Updated.PId = em.PId;
+            employee obj = new employee();
+            project pro = new project();
+            pro.projId = em.ProjectId;
+            pro.projname = em.ProjectName;
+            Updated.empid = em.EmpId;
+            Updated.empname = em.EmpName;
+            Updated.empsalary = em.EmpSalary;
+            Updated.empAddress = em.EmpAddress;
+            Updated.project = pro;
 
             Main.employees.Attach(Updated);
             Main.Entry(Updated).State = System.Data.Entity.EntityState.Modified;
@@ -183,29 +200,25 @@ namespace Magic
 
             var Table = (from Emp
                          in Main.employees
-                         where Emp.empname == em.empname
-                         select EmpId).First();
+                         where Emp.empname == em.EmpName
+                         select Emp.empid).First();
 
-           if (Table == em.empid)
+            if (Table == em.EmpId)
             {
-                RetValCheck = 1; 
+                RetVal = 1;
             }
-           else
+            else
             {
-                RetValCheck = 0;
+                RetVal = 0;
             }
-           
-            return RetValCheck;
+
+            return RetVal;
+
         }
 
         public int UpdateProjec()
         {
             throw new NotImplementedException();
         }
-
-        //public int DeleteEmployeeID(string id)
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }
