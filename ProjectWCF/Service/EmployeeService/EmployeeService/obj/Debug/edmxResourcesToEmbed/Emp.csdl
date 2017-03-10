@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EmployeesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="EmployeeTable">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Age" Type="Int32" />
+    <NavigationProperty Name="ProjectsTables" Relationship="Self.FK_ProjectsTable_EmployeeTable" FromRole="EmployeeTable" ToRole="ProjectsTable" />
+  </EntityType>
+  <EntityType Name="ProjectsTable">
+    <Key>
+      <PropertyRef Name="ProjectId" />
+    </Key>
+    <Property Name="ProjectName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ProjectId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EmpId" Type="Int32" />
+    <NavigationProperty Name="EmployeeTable" Relationship="Self.FK_ProjectsTable_EmployeeTable" FromRole="ProjectsTable" ToRole="EmployeeTable" />
+  </EntityType>
+  <Association Name="FK_ProjectsTable_EmployeeTable">
+    <End Role="EmployeeTable" Type="Self.EmployeeTable" Multiplicity="0..1" />
+    <End Role="ProjectsTable" Type="Self.ProjectsTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EmployeeTable">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProjectsTable">
+        <PropertyRef Name="EmpId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="EmployeesEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="EmployeeTables" EntityType="Self.EmployeeTable" />
+    <EntitySet Name="ProjectsTables" EntityType="Self.ProjectsTable" />
+    <AssociationSet Name="FK_ProjectsTable_EmployeeTable" Association="Self.FK_ProjectsTable_EmployeeTable">
+      <End Role="EmployeeTable" EntitySet="EmployeeTables" />
+      <End Role="ProjectsTable" EntitySet="ProjectsTables" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
