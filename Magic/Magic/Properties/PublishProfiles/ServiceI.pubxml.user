@@ -16,7 +16,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/03/2015 17:43:42</publishTime>
     </File>
     <File Include="bin/Magic.dll">
-      <publishTime>03/10/2017 16:02:07</publishTime>
+      <publishTime>03/10/2017 22:27:13</publishTime>
     </File>
     <File Include="bin/Microsoft.AI.Agent.Intercept.dll">
       <publishTime>11/30/2016 16:07:42</publishTime>

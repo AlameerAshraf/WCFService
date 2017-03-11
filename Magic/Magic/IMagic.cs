@@ -38,33 +38,30 @@ namespace Magic
         int InsertEmployee(EmpInfo emp);
 
 
-        //[OperationContract]
-        //[WebGet(UriTemplate = "Projects")]
-        //List<project> GetAllProject();
+        [OperationContract]
+        [WebGet(UriTemplate = "Projects")]
+        List<project> GetAllProject();
 
-        //[OperationContract]
-        //[WebInvoke(Method = "GET", UriTemplate = "Project/{id}")]
-        //project GetProjectID(string id);
+        [OperationContract]
+        [WebInvoke(Method = "GET", UriTemplate = "Project/{id}")]
+        project GetProjectID(string id);
 
-        //[OperationContract]
-        //[WebInvoke(Method = "GET", UriTemplate = "Project?pro={project}")]
-        //List<employee> GetProjectName(string project);
+        [OperationContract]
+        [WebInvoke(Method = "GET", UriTemplate = "Project?pro={project}")]
+        List<EmpInfo> GetProjectName(string project);
 
-        //[OperationContract]
-        //[WebInvoke(Method = "PUT", UriTemplate = "UpdateProjec")]
-        //int UpdateProjec();   // 0 Failed , 1 Done , 2 Noid
-
-
-        //[OperationContract]
-        //[WebInvoke(Method = "DELETE", UriTemplate = "DeleteProjec/{id}")]
-        //int DeleteProjecID(string id);  // 0 Failed , 1 Done , 2 Noid 
-
-        //[OperationContract]
-        //[WebInvoke(Method = "POST", UriTemplate = "InsertProjet")]
-        //int InsertProjet(project pro);
+        [OperationContract]
+        [WebInvoke(Method = "PUT", UriTemplate = "UpdateProjec")]
+        int UpdateProjec(project pr);   // 0 Failed , 1 Done , 2 Noid
 
 
+        [OperationContract]
+        [WebInvoke(Method = "DELETE", UriTemplate = "DeleteProjec/{id}")]
+        int DeleteProjecID(string id);  // 0 Failed , 1 Done , 2 Noid 
 
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "InsertProjet")]
+        int InsertProjet(project pro);
 
     }
 }

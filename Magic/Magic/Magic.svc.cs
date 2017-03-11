@@ -26,7 +26,22 @@ namespace Magic
          
             Main.employees.Remove(DelEmpId);
             Main.SaveChanges();
-            j = 1;
+
+            var Emplist = (from i
+                      in Main.employees
+                            select i).ToList();
+
+            foreach (var item in Emplist)
+            {
+                if (item.empid == DelEmpId.empid)
+                {
+                    j = 0;
+                }
+                else
+                {
+                    j = 1;
+                }
+            }
             return j;
         }
 
@@ -36,7 +51,7 @@ namespace Magic
 
             int j = 0;
             int prid = int.Parse(id);
-
+           
             var DelproId = (from i
                             in Main.projects
                             where i.projId == prid
@@ -44,7 +59,23 @@ namespace Magic
 
             Main.projects.Remove(DelproId);
             Main.SaveChanges();
-            j = 1;
+
+            var ProsList = (from i
+                            in Main.projects
+                            select i).ToList();
+
+            foreach (var item in ProsList)
+            {
+                if (item.projId == DelproId.projId)
+                {
+                    j = 0;
+                }
+                else
+                {
+                    j = 1;
+                }
+            }
+                 
             return j;
         }
 
@@ -92,20 +123,20 @@ namespace Magic
         {
             int prid = int.Parse(id);
             var project1 = (from i
-                       in Main.projects
+                            in Main.projects
                             where i.projId == prid
                             select i).First();
             return project1;
         }
         
-        public List<employee> GetProjectName(string Name)
+        public List<EmpInfo> GetProjectName(string Name)
         {
 
             var project1 = (from i
                             in Main.projects
                             join f in Main.employees on i.projId equals f.PId
                             where i.projname == Name
-                            select f).ToList();
+                            select new EmpInfo { EmpAddress=f.empAddress,EmpId=f.empid,EmpName=f.empname,EmpSalary=f.empsalary,ProjectId=i.projId,ProjectName=i.projname }).ToList();
             return project1;
 
         }
@@ -216,9 +247,28 @@ namespace Magic
 
         }
 
-        public int UpdateProjec()
+        public int UpdateProjec(project pr)
         {
-            throw new NotImplementedException();
+            int Id = pr.projId;
+            int res = 0;
+            var Updated = (from p
+                           in Main.projects
+                           where p.projId == Id
+                           select p).First();
+            Updated.projId = pr.projId;
+            Updated.projname = pr.projname;
+            Main.projects.Attach(Updated);
+            Main.Entry(Updated).State = System.Data.Entity.EntityState.Modified;
+            Main.SaveChanges();
+            if(Updated.projname==pr.projname)
+            {
+                res = 1;
+            }
+            else
+            {
+                res = 0;
+            }
+            return res;
         }
     }
 }
