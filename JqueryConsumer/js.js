@@ -60,5 +60,55 @@ var json2=13
 
   })
     })
-    
+    var json3 =   {
+      	"EmpAddress":"String content",
+      	"EmpId":15,
+      	"EmpName":"String",
+      	"EmpSalary":12678967.543233,
+      	"ProjectId":10,
+      	"ProjectName":"String content"
+      }
+$( "#up" ).click(function() {
+      $.ajax({
+           type: "PUT",
+           url: "http://localhost:8258/Magic.svc/UpdateEmployee",
+           data: JSON.stringify(json3),
+           contentType: "application/json; charset=utf-8",
+           dataType: "json"
+    }).done(function(){
+
+    }).fail(function(){
+
+    })
+      })
+      var json4 =  "asasa"
+
+  $( "#getName" ).click(function() {
+        $.ajax({
+             type: "GET",
+             url: "http://localhost:8258/Magic.svc/Employee?Name="+json4,
+             data: JSON.stringify(json4),
+             contentType: "application/json; charset=utf-8",
+             dataType: "json"
+      }).done(function(){
+
+      }).fail(function(){
+
+      })
+        })
+        var json5 =  15
+
+    $( "#getId" ).click(function() {
+          $.ajax({
+               type: "GET",
+               url: "http://localhost:8258/Magic.svc/Employee/"+json5,
+               data: JSON.stringify(json5),
+               contentType: "application/json; charset=utf-8",
+               dataType: "json"
+        }).done(function(){
+
+        }).fail(function(){
+
+        })
+          })
 });
